@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeAreUs - Donate Organisasi</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <script src="js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+<body style="font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;">
+    <div><table style="background-image: url(foto/navbarbackground.jpg)" class="table aligns-items-center shadow-lg bg-white" id="sticky" style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
+        <tr class="border d-flex aligns-items-center justify-content-center">
+            <td class="col-4 aligns-items-left py-2"><img src="foto/logo.jpg" si></td>
+            <td class="col-6 d-flex aligns-items-center justify-content-center fw-bold align-middle py-4" style="font-size:30px;">
+                <li class="d-inline mx-3 align-self-center"><h2><a style="text-decoration: none;" href="index.html">BERANDA</a>
+                    <li class="d-inline mx-3 align-self-center"><a style="text-decoration: none;" href="donateoption.html">DONASI</a>
+                <li class="d-inline mx-3 align-self-center"><a style="text-decoration: none;" href="kejadian.html">BERITA</a>
+                <li class="d-inline mx-3 align-self-center"><a style="text-decoration: none;" href="penggalang.html">GALANG DANA</a></h2>
+            </td>
+            <td style="list-style-type: none;" class="col-2 aligns-items-left py-8 align-middle aligns-items-center justify-content-center">
+                <li style="text-decoration: none; text-align: center;" class="border border-primary text-primary mx-3 align-self-center p-7"><a href="#">LOGIN</a></li>
+                <li style="text-decoration: none;" class="mx-3 align-self-center">
+                    <a class="p-2" href="https://web.facebook.com/Indomilk/"><img src="foto/pesbuk.png"></a>
+                    <a class="p-2" href="https://www.instagram.com/indomilk/"><img src="foto/instagram.png"></a>
+                    <a class="p-2" href="https://twitter.com/indomilk"><img src="foto/twitter.png"></a>
+                    <a class="p-2" href="https://www.youtube.com/channel/UCPCqx4_U9EnM9pmc0j3Hqow"><img src="foto/youtube.png"></a>
+                </li>
+            </td>
+        </tr>
+    </table></div>
+    
+    <div class="row p-4 pb-0 pe-lg-0 pt-lg-5 align-items-center rounded-3 border shadow-lg text-center">
+
+        
+        <div id="app">
+
+            <div class="container">         
+                  <div class="col-md-12">
+                        <h4 class="mb-3">Form Donasi  <button class="btn btn-md btn-primary" v-on:click="resetForm()">Masukkan Data Diri </button>
+                        </h4>
+                        <table class="table table-striped">
+                            <tr>
+                                <th>ID Organisasi</th>
+                                <th>Nama Organisasi</th>
+                                <th>Profil Singkat Organisasi</th>
+                                <th>Pesan Organisasi</th>
+                                <th>ID Penggalang</th>
+                                <th>Jumlah Donasi</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
+                            <tr v-for="organisasi in Donator_Organisasi">
+                                <td>{{ organisasi.id_organisasi }}</td>
+                                <td>{{ organisasi.nama_organisasi }}</td>
+                                <td>{{ organisasi.profil_singkat_organisasi }}</td>
+                                <td>{{ organisasi.pesan_organisasi }}</td>
+                                <td>{{ organisasi.id_penggalang }}</td>
+                                <td>{{ organisasi.jumlah_donasi_organisasi }}</td>
+                                <td><button class="btn btn-md btn-warning" v-on:click="getEdit(organisasi)">Edit</button></td>
+                                <td><button class="btn btn-danger" v-on:click="getDelete(organisasi)">Delete</button></td>
+                            </tr>
+                    </table>
+    
+                
+                    <h4 class="mb-3">User Information</h4>
+                    <form class="needs-validation" novalidate>
+                        <div class="mb-3">
+                          <label for="nama_organisasi">Nama Donator:</label>
+                          <input v-model="nama_organisasi" type="text" class="form-control" id="nama_organisasi" placeholder="Masukkan nama organisasi anda" value="" required>
+                          <div class="invalid-feedback">
+                            Valid first name is required.
+                          </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="profil_singkat_organisasi">Profil Singkat Organisasi:</label>
+                            <textarea v-model="profil_singkat_organisasi" class="form-control" id="profil_singkat_organisasi" placeholder="Tuliskan profil singkat organisasi anda" value="" required></textarea>
+                            <div class="invalid-feedback">
+                                Valid first name is required.
+                              </div>
+                        </div>
+                        </div>
+                          <div class="mb-3">
+                            <label for="pesan_organisasi">Pesan Organisasi:</label>
+                            <textarea v-model="pesan_organisasi" type="text" class="form-control" id="pesan_organisasi" placeholder="Tuliskan pesan dari organisasi anda" value="" required></textarea>
+                            <div class="invalid-feedback">
+                                Valid first name is required.
+                              </div>
+                        </div>
+                          <div class="mb-3">
+                            <label for="id_penggalang">ID Penggalang:</label>
+                            <input v-model="id_penggalang" type="text" class="form-control" id="id_penggalang" placeholder="Masukkan id penggalang yang ingin didonasikan" value="" required>
+                            <div class="invalid-feedback">
+                                Valid first name is required.
+                              </div>  
+                        </div>
+                          <div class="mb-3">
+                            <label for="jumlah_donasi_organisasi">Jumlah Donasi:</label>
+                            <input v-model="jumlah_donasi_organisasi" type="text" class="form-control" id="jumlah_donasi_organisasi" placeholder="Masukkan jumlah yang ingin didonasikan" value="" required>
+                            <div class="invalid-feedback">
+                                Valid first name is required.
+                              </div> 
+                        </div>
+
+
+
+     
+                    
+                      
+                    </form>
+                  </div>
+                  <hr class="mb-4">
+                      <button v-if="!editMode && !deleteMode" v-on:click="createOrganisasi" class="btn btn-primary btn-lg btn-block" type="submit">Submit Data</button>
+                      <button v-if="editMode" v-on:click="updateOrganisasi" class="btn btn-warning btn-lg btn-block" type="submit">Update Data</button>
+                      <button v-if="deleteMode" v-on:click="deleteOrganisasi" class="btn btn-danger btn-lg btn-block" type="submit">Delete Data</button>
+                      <br><br><br><br><br>
+                      
+                    <div v-if="message" class="alert alert-success" role="alert">
+                        {{ message }}
+                    </div>
+                    
+                </div>
+    
+        </div>
+        
+    
+        <!-- Axios -->
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    
+        <script>
+            var app = new Vue ({
+                el: '#app',
+                data: {
+                    errors: [],
+                    message: null,
+                    Donator_Organisasi:[],
+                    idEdit: null,
+                    idDelete: null,
+                    editMode: false,
+                    deleteMode: false,
+                    nama_organisasi: '',
+                    profil_singkat_organisasi: '',
+                    pesan_organisasi: '',
+                    id_penggalang: '',
+                    jumlah_donasi_organisasi: '',
+                },
+                mounted: function() {
+                    this.getOrganisasi();
+                },
+                methods: {
+                    getOrganisasi() {
+                        axios.get('https://622355bb3af069a0f99fae09.mockapi.io/Donator_Organisasi')
+                            .then(response => {
+                                this.Donator_Organisasi = response.data;
+                                console.log(response);
+                            })
+                            .catch(error => {
+                                console.log(error);
+                            });
+                    },
+                    createOrganisasi: function(){
+                        axios.post('https://622355bb3af069a0f99fae09.mockapi.io/Donator_Organisasi', {
+                            nama_organisasi: this.nama_organisasi,
+                            profil_singkat_organisasi: this.profil_singkat_organisasi,
+                            pesan_organisasi: this.pesan_organisasi,
+                            id_penggalang: this.id_penggalang,
+                            jumlah_donasi_organisasi: this.jumlah_donasi_organisasi,
+                        })
+                        .then(response => {
+                                this.getOrganisasi();
+                                this.message = "Data anda sudah disimpan";
+                                console.log(response);
+                        })
+                        .catch(error => {
+                                console.log(error);
+                        });
+                    },
+                    resetForm: function () {
+                        this.message = null;
+                        this.editMode = false;
+                        this.deleteMode = false;
+                        this.idEdit = null;
+                        this.nama_organisasi = null;
+                        this.profil_singkat_organisasi = null;
+                        this.pesan_organisasi = null;
+                        this.id_penggalang = null;
+                        this.jumlah_donasi_organisasi = null;
+                    },
+                    getEdit: function (organisasi) {
+                        this.message = null;
+                        this.editMode = true;
+                        this.deleteMode = false;
+                        this.organisasiIdEdit = organisasi.id_organisasi;
+                        this.nama_organisasi = organisasi.nama_organisasi;
+                        this.profil_singkat_organisasi = organisasi.profil_singkat_organisasi;
+                        this.pesan_organisasi = organisasi.pesan_organisasi;
+                        this.id_penggalang = organisasi.id_penggalang;
+                        this.jumlah_donasi_organisasi = organisasi.jumlah_donasi_organisasi;
+                    },
+                    getDelete: function (organisasi) {
+                        this.message = null;
+                        this.editMode = false;
+                        this.deleteMode = true;
+                        this.organisasiIdDelete = organisasi.id_organisasi;
+                        this.nama_organisasi = organisasi.nama_organisasi;
+                        this.profil_singkat_organisasi = organisasi.profil_singkat_organisasi;
+                        this.pesan_organisasi = organisasi.pesan_organisasi;
+                        this.id_penggalang = organisasi.id_penggalang;
+                        this.jumlah_donasi_organisasi = organisasi.jumlah_donasi_organisasi;
+                    },
+                    updateOrganisasi: function () {
+                        axios.put(`https://622355bb3af069a0f99fae09.mockapi.io/Donator_Organisasi/${this.organisasiIdEdit}`, {
+                            nama_organisasi: this.nama_organisasi,
+                            profil_singkat_organisasi: this.profil_singkat_organisasi,
+                            pesan_organisasi: this.pesan_organisasi,
+                            id_penggalang: this.id_penggalang,
+                            jumlah_donasi_organisasi: this.jumlah_donasi_organisasi,
+                        })
+                            .then(res => {
+                                // handle success
+                                this.message = "Your data has been updated";
+                                this.getOrganisasi();
+                            })
+                            .catch(err => {
+                                // handle error
+                                console.log(err);
+                            })
+                    },
+                    // Delete User
+                    deleteOrganisasi: function () {
+                        axios.delete(`https://622355bb3af069a0f99fae09.mockapi.io/Donator_Organisasi/${this.organisasiIdDelete}`)
+                            .then(res => {
+                                // handle success
+                                this.message = "Data sudah dihapus";
+                                this.getOrganisasi();
+                            })
+                            .catch(err => {
+                                // handle error
+                                console.log(err);
+                            })
+                    }
+                }
+            })
+            
+        </script><br><br><br>
+    </div>
+    <br><br><br><br><br><br>
+        <footer class="container bg-info"><br><br><br><br><br><br>
+            <p class="float-end"><a href="#">Back to top</a></p>
+            <p>&copy; 2022–2023 WeAreUs, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+        </footer>
+</body>
+</html>

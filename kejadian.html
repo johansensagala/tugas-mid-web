@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeAreUs - Donate Organisasi</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <script src="js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+<body style="font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;">
+    <div><table style="background-image: url(foto/navbarbackground.jpg)" class="table aligns-items-center shadow-lg bg-white" id="sticky" style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
+        <tr class="border d-flex aligns-items-center justify-content-center">
+            <td class="col-4 aligns-items-left py-2"><img src="foto/logo.jpg" si></td>
+            <td class="col-6 d-flex aligns-items-center justify-content-center fw-bold align-middle py-4" style="font-size:30px;">
+                <li class="d-inline mx-3 align-self-center"><h2><a style="text-decoration: none;" href="index.html">BERANDA</a>
+                    <li class="d-inline mx-3 align-self-center"><a style="text-decoration: none;" href="donateoption.html">DONASI</a>
+                <li class="d-inline mx-3 align-self-center"><a style="text-decoration: none;" href="biodata.html">BERITA</a>
+                <li class="d-inline mx-3 align-self-center"><a style="text-decoration: none;" href="penggalang.html">GALANG DANA</a></h2>
+            </td>
+            <td style="list-style-type: none;" class="col-2 aligns-items-left py-8 align-middle aligns-items-center justify-content-center">
+                <li style="text-decoration: none; text-align: center;" class="border border-primary text-primary mx-3 align-self-center p-7"><a href="#">LOGIN</a></li>
+                <li style="text-decoration: none;" class="mx-3 align-self-center">
+                    <a class="p-2" href="https://web.facebook.com/Indomilk/"><img src="foto/pesbuk.png"></a>
+                    <a class="p-2" href="https://www.instagram.com/indomilk/"><img src="foto/instagram.png"></a>
+                    <a class="p-2" href="https://twitter.com/indomilk"><img src="foto/twitter.png"></a>
+                    <a class="p-2" href="https://www.youtube.com/channel/UCPCqx4_U9EnM9pmc0j3Hqow"><img src="foto/youtube.png"></a>
+                </li>
+            </td>
+        </tr>
+    </table></div>
+
+    <div id="app">
+
+        
+        <div class="row p-4 pb-0 pe-lg-0 pt-lg-5 align-items-center rounded-3 border shadow-lg text-center">
+    
+            
+            <div id="app">
+
+                <div class="container">
+                    <div class="py-5 text-center">
+                      <h2>VueJS CRUD Example</h2>
+                      <p class="lead">Below is an example of CRUD operation using VueJS</p>
+                    </div>
+              
+                      <div class="col-md-12">
+                        <h4 class="mb-3">User Data  <button class="btn btn-md btn-primary" v-on:click="resetForm()">Create new User </button>
+                        </h4>
+                        <table class="table table-striped">
+                            <tr>
+                                <th>ID</th>
+                                <th>Kronologi</th>
+                                <th>Lokasi</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
+                            <tr v-for="kejadian in kejadians">
+                                <td>{{ kejadian.id_kejadian }}</td>
+                                <td>{{ kejadian.kronologi }}</td>
+                                <td>{{ kejadian.lokasi }}</td>
+                                <td><button class="btn btn-md btn-warning" v-on:click="getEdit(kejadian)">Edit</button></td>
+                                <td><button class="btn btn-danger" v-on:click="getDelete(kejadian)">Delete</button></td>
+                            </li>
+                        </table>
+        
+                        <div v-if="message" class="alert alert-success" role="alert">
+                            {{ message }}
+                        </div>
+                        
+                    
+                        <h4 class="mb-3">User Information</h4>
+                        <form class="needs-validation" novalidate>
+                          
+                            <div class="col-md-6 mb-3">
+                              <label for="kronologi">Kronologi</label>
+                              <input  v-model="kronologi" type="text" class="form-control" id="kronologi" placeholder="" value="" required>
+                            </div>
+        
+                            <div class="col-md-6 mb-3">
+                              <label for="lokasi">Lokasi</label>
+                              <input v-model="lokasi" type="text" class="form-control" id="lokasi" placeholder="" value="" required>
+                            </div>
+                     </div>
+                        
+                          <hr class="mb-4">
+                          <button v-if="!editMode && !deleteMode" v-on:click="createKejadian" class="btn btn-primary btn-lg btn-block" type="submit">Submit Data</button>
+                          <button v-if="editMode" v-on:click="updateKejadian" class="btn btn-warning btn-lg btn-block" type="submit">Update Data</button>
+                          <button v-if="deleteMode" v-on:click="deleteKejadian" class="btn btn-danger btn-lg btn-block" type="submit">Delete Data</button>
+                          
+                        </form>
+                      </div>
+                    </div>
+        
+            </div>
+            
+        
+            <!-- Axios -->
+            <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        
+            <script>
+                var app = new Vue ({
+                    el: '#app',
+                    data: {
+                        errors: [],
+                        message: null,
+                        kejadians:[],
+                        kejadianIdEdit: null,
+                        kejadianIdDelete: null,
+                        editMode: false,
+                        deleteMode: false,
+                        id_kejadian:'',
+                        kronologi: '',
+                        lokasi: '',
+                    },
+                    mounted: function() {
+                        this.getKejadian();
+                    },
+                    methods: {
+                        getKejadian() {
+                            axios.get('https://622355bb3af069a0f99fae09.mockapi.io/Kejadian')
+                                .then(response => {
+                                    this.kejadians = response.data;
+                                    console.log(response);
+                                })
+                                .catch(error => {
+                                    console.log(error);
+                                });
+                        },
+                        createKejadian: function(){
+                            axios.post('https://622355bb3af069a0f99fae09.mockapi.io/Kejadian',{
+                                id_kejadian:this.id_kejadian,
+                                kronologi: this.kronologi,
+                                lokasi: this.lokasi,
+                            })
+                            .then(response => {
+                                    this.getKejadian();
+                                    this.message = "Your data has been submitted";
+                                    console.log(response);
+                            })
+                            .catch(error => {
+                                    console.log(error);
+                            });
+                        },
+                        resetForm: function () {
+                            this.message = null;
+                            this.editMode = false;
+                            this.deleteMode = false;
+                            this.kejadianIdEdit = null;
+                            this.id_kejadian = null;
+                            this.kronologi = null;
+                            this.lokasi = null;
+                        },
+                        getEdit: function (kejadian) {
+                            this.message = null;
+                            this.editMode = true;
+                            this.deleteMode = false;
+                            this.kejadianIdEdit = kejadian.id_kejadian;
+                            this.id_kejadian = kejadian.id_kejadian;
+                            this.kronologi = kejadian.kronologi;
+                            this.lokasi = kejadian.lokasi;
+                        },
+                        getDelete: function (kejadian) {
+                            this.message = null;
+                            this.deleteMode = true;
+                            this.editMode = false;
+                            this.kejadianIdDelete = kejadian.id_kejadian;
+                            this.id_kejadian = kejadian.id_kejadian;
+                            this.kronologi = kejadian.kronologi;
+                            this.lokasi = kejadian.lokasi;
+                        },
+                        updateKejadian: function () {
+                            axios.put(`https://622355bb3af069a0f99fae09.mockapi.io/Kejadian/${this.kejadianIdEdit}`, {
+                                    kronologi: this.kronologi,
+                                    lokasi: this.lokasi,
+                                })
+                                .then(res => {
+                                    // handle success
+                                    this.message = "Your data has been updated";
+                                    this.getKejadian();
+                                })
+                                .catch(err => {
+                                    // handle error
+                                    console.log(err);
+                                })
+                        },
+                        // Delete User
+                        deleteKejadian: function () {
+                            axios.delete(`https://622355bb3af069a0f99fae09.mockapi.io/Kejadian/${this.kejadianIdDelete}`)
+                                .then(res => {
+                                    // handle success
+                                    this.message = "Your data has been deleted";
+                                    this.getKejadian();
+                                })
+                                .catch(err => {
+                                    // handle error
+                                    console.log(err);
+                                })
+                        }
+                    }
+                })
+                
+            </script><br><br><br>
+        </div>
+        
+    </script>
+    <footer class="container bg-info">
+        <p class="float-end"><a href="#">Back to top</a></p>
+        <p>&copy; 2022–2023 WeAreUs, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+    </footer>
+
+
+</body>
+</html>
